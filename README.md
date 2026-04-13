@@ -19,7 +19,7 @@ A developer task tracking dashboard built with Next.js 15 and MongoDB.
 ## Getting Started
 
 1. Clone the repo
-   git clone https://github.com/YOUR_USERNAME/devboard.git
+   git clone https://github.com/Rumaisa_10/devboard.git
 
 2. Install dependencies
    npm install
