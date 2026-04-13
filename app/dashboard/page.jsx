@@ -4,13 +4,20 @@ import React from 'react'
 import AddTaskForm from "./AddTaskForm";
 import DeleteButton from "./DeleteButton";
 import EditTaskForm from "./EditTaskForm";
-
+import { getServerSession } from "next-auth";
+import LogoutButton from "./LogoutButton";
+import { redirect } from "next/navigation";
 export default async function DashBoardPage() {
+  const session = await getServerSession()
+   if (!session) redirect("/login")
+
+
   const tasks = await getTasks()
   return (
     <div>
       <main className="p-8">
       <h1 className="text-2xl font-medium mb-6">My Tasks</h1>
+      <LogoutButton></LogoutButton>
       <AddTaskForm></AddTaskForm>
 
       {tasks.length === 0 ? (
