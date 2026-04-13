@@ -2,26 +2,23 @@
 import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { CreateTask } from "../lib/action";
 
 export default function AddTaskForm() {
-  const [title, setTitle] = useState("");
-  const [status, setStatus] = useState("todo");
-  const [priority, setPriority] = useState("medium");
+  const[formData,setFormData] = useState({
+    title:'',
+    status:'todo',
+    priority :'medium'
+  })
   const [loading, setLoading] = useState(false);
   const router = useRouter()
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
-    await fetch("/api/tasks", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, status, priority }),
-    });
-    setTitle("");
-    setStatus("todo");
-    setPriority("medium");
-    setLoading(false);
+   await CreateTask(formData)
+    setFormData({ title: "", status: "todo", priority: "medium" })
+    setLoading(false)
     router.refresh() 
   }
   return (
@@ -29,15 +26,15 @@ export default function AddTaskForm() {
       <input
         type="text"
         placeholder="Task title..."
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        value={formData.title}
+        onChange={(e) => setFormData({...formData,title:e.target.value})}
         className="border rounded-lg p-2 bg-background"
       />
 
       <div className="flex gap-3">
         <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
+          value={formData.status}
+          onChange={(e) => setFormData({...formData,status:e.target.value})}
           className="border rounded-lg p-2 bg-background"
         >
           <option value="todo">Todo</option>
@@ -46,8 +43,8 @@ export default function AddTaskForm() {
         </select>
 
         <select
-          value={priority}
-          onChange={(e) => setPriority(e.target.value)}
+          value={formData.priority}
+          onChange={(e) => setFormData({...formData,priority:e.target.value})}
           className="border rounded-lg p-2 bg-background"
         >
           <option value="low">Low</option>
